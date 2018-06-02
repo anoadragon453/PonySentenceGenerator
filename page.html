@@ -8,8 +8,15 @@ p {
 	font-size: 130%;
 }
 
-h1, p, a {
+h1, p, a, .footer {
 	font-family: Arial;
+}
+
+.footer {
+	position: absolute;
+	bottom: 10px;
+	height: 10px;
+	width: 100%;
 }
 </style>
 
@@ -19,4 +26,5 @@ h1, p, a {
 <p>{{.Sentence}}</p>
 <br>
 <a href="">Another!</a>
+<div class="footer">This site is <a href="https://github.com/anoadragon453/PonySentenceGenerator">written</a> in Go and uses the <a href="https://github.com/anoadragon453/ponysentence">PonySentence library</a>.</div>
 </body>
