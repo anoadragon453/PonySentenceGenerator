@@ -12,11 +12,11 @@ h1, p, a, .footer {
 	font-family: Arial;
 }
 
-.footer {
-	position: absolute;
-	bottom: 10px;
-	height: 10px;
-	width: 100%;
+img {
+	display: block;
+	height: 10em;
+	margin: auto;
+	margin-bottom: 10px;
 }
 </style>
 
@@ -26,5 +26,10 @@ h1, p, a, .footer {
 <p>{{.Sentence}}</p>
 <br>
 <a href="">Another!</a>
-<div class="footer">This site is <a href="https://github.com/anoadragon453/PonySentenceGenerator">written</a> in Go and uses the <a href="https://github.com/anoadragon453/ponysentence">PonySentence library</a>.</div>
+
+{{ range .Images }}
+	<img src="{{.URL}}"/>
+{{ end }}
+
+<div>This site is <a href="https://github.com/anoadragon453/PonySentenceGenerator">written</a> in Go and uses the <a href="https://github.com/anoadragon453/ponysentence">PonySentence library</a>.</div>
 </body>

@@ -11,23 +11,41 @@ import (
 	ps "github.com/anoadragon453/ponysentence"
 )
 
-type Page struct {
-	Sentence string
+type Image struct {
+	URL string
 }
 
+type Page struct {
+	Sentence string
+	Images []Image
+}
+
+// generatePage generates a pony-themed sentence and returns a webpage with the
+// sentence and associated images on it.
 func generatePage(w http.ResponseWriter, req *http.Request) {
 	// Generate a sentence with 1-3 ponies
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-	sentence := ps.NewSentence(r.Intn(3) + 1)
+	sentence, imageURLs := ps.NewSentenceWithImages(r.Intn(3) + 1)
+	fmt.Println(sentence, imageURLs)
 
-	// Make the webpage
-	page := Page{sentence}
+	// Grab all of the returned images
+	var images []Image
+	for _, url := range imageURLs {
+		images = append(images, Image{
+			URL: url,
+		})
+	}
 
+	// Make a page containing our sentence and images
+	page := Page{sentence, images}
+
+	// Parse the custom template HTML file 
 	t, err := template.ParseFiles("page.html")
 	if err != nil {
 		fmt.Fprintf(w, "Unable to generate page: %s", err.Error())
 		return
 	}
+	// Fill in the template with our sentence and images
 	t.Execute(w, page)
 }
 
