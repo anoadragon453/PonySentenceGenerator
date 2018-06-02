@@ -26,7 +26,6 @@ func generatePage(w http.ResponseWriter, req *http.Request) {
 	// Generate a sentence with 1-3 ponies
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	sentence, imageURLs := ps.NewSentenceWithImages(r.Intn(3) + 1)
-	fmt.Println(sentence, imageURLs)
 
 	// Grab all of the returned images
 	var images []Image
