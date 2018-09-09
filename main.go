@@ -7,6 +7,7 @@ import (
 	"math/rand"
 	"html/template"
 	"time"
+	"strconv"
 
 	ps "github.com/anoadragon453/ponysentence"
 )
@@ -48,12 +49,36 @@ func generatePage(w http.ResponseWriter, req *http.Request) {
 	t.Execute(w, page)
 }
 
+func returnRandomSentence(w http.ResponseWriter, req *http.Request) {
+	numPones := 3
+
+	// Check if custom amount of ponies was defined
+	if num := req.URL.Query().Get("ponies"); num != "" {
+		newNum, err := strconv.Atoi(num)
+		if err != nil {
+			fmt.Fprint(w, "Error: 'ponies' query paramater not parsable int")
+			return
+		}
+		numPones = newNum
+
+		// No DDOS'ing!
+		if numPones > 50 {
+			fmt.Fprint(w, "Error: max 50 ponies")
+			return
+		}
+	}
+			
+	// Print random sentence
+	fmt.Fprint(w, ps.NewSentence(numPones))
+}
+
 func main() {
+	http.HandleFunc("/ponysentence/sentence/", returnRandomSentence)
+	http.HandleFunc("/ponysentence/sentence", returnRandomSentence)
 	http.HandleFunc("/", generatePage)
 	log.Print("Running server on :6969")
 	err := http.ListenAndServe(":6969", nil)
 	if err != nil {
 		log.Fatal("Unable to start server: ", err)
 	}
-
 }
