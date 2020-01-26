@@ -66,6 +66,10 @@ func returnRandomSentence(w http.ResponseWriter, req *http.Request) {
 			fmt.Fprint(w, "Error: max 50 ponies")
 			return
 		}
+		if numPones < 1 {
+			fmt.Fprint(w, "Error: amount of ponies must be one or more")
+			return
+		}
 	}
 			
 	// Print random sentence
